@@ -52,8 +52,18 @@ for i in range(len(ra_aluno)):
 
 collection_student.insert_many(students)
 
-for i in collection_student.find():
-    print(i)
+# for i in collection_student.find():
+#     print(i)
+
+#querie para retornar a nota de cada aluno
+
+#{} -> busque todas as collections sem filtro
+nome_aluno = collection_student.find({}, {"Nome_Aluno": 1, "_id": 0, "Idade_Aluno" : 1, "Historico_Escolar.Nota" : 1})
+
+nota_especifica = collection_student.find({"Historico_Escolar.Nota": {"$lt": 2} }, {"Nome_Aluno": 1, "_id": 0, "Historico_Escolar.Nota" : 1})
+
+for i in nota_especifica:
+    print("nota especifica: ", i)
 
 #resultado = collection_test.find_one({"nome" : document["nome"]})
 

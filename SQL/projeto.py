@@ -6,7 +6,7 @@ from faker.providers import DynamicProvider
 import random
 
 # Ler os dados do arquivo.json (database,user,password,host,port) e armazená-los na variável config
-with open('acess.json') as file:
+with open('SQL/acess.json') as file:
     config = json.load(file)
 
 # passar os dados do banco para variaveis
@@ -22,7 +22,7 @@ conexao = psycopg2.connect(
 cursor = conexao.cursor()
 
 # ler o arquivo sql
-with open("DDL.sql", "r") as sql_file:
+with open("SQL/DDL.sql", "r") as sql_file:
     sql_script = sql_file.read()
 
 # executar o SQL script
@@ -239,7 +239,7 @@ cursor.execute("INSERT INTO DEPARTAMENTO VALUES (%s, %s)", ('Astrofisica', 'Juli
 cursor.execute("INSERT INTO PROFESSOR VALUES (%s, %s, %s, %s)", ('12.456.789-0', 'Julia', 25000, 'Astrofisica'))
 
 # ler o arquivo das querys criadas, alem de executa-lo
-with open("query.sql", "r") as sql_file:
+with open("SQL/query.sql", "r") as sql_file:
     sql_script = sql_file.read()
 
 # executar o SQL script

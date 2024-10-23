@@ -4,6 +4,7 @@ from faker import Faker
 from faker.providers import DynamicProvider
 import random
 
+# Def para dropas todas as coleções
 def drop_collections(db):
     collections_to_drop = [
         'Departamento',
@@ -24,6 +25,7 @@ def drop_collections(db):
     print("Operação drop terminada.")
 
 
+# Abrir o arquivo json e conectar com o banco
 with open ('./Banco Document Store/acessMongo.json') as file:
     config = json.load(file)
 
@@ -34,11 +36,11 @@ connection = MongoClient(mongo_uri)
 
 db = connection[db_name]
 
-#Dropar todas as tabelas:
+# Dropar todas as tabelas:
 drop_collections(db)
 
 fake = Faker()
-#Criar as coleções
+# Criar as coleções
 collection_departamento = db['Departamento']
 collection_curso = db['Curso']
 collection_teacher = db['Professores']
@@ -56,47 +58,58 @@ nome_materia = DynamicProvider(
     elements = ["Calculo 1", "Calculo 2", "Calculo 3", "Calculo 4", "Probabilidade e Estatística", "Desenvolvimento de Projetos", "Introdução a Computação"],
 )
 
-#inicialização dos providers:
+# inicialização dos providers:
 fake.add_provider(nome_materia)
 
-ra_aluno = random.sample(range(100000000, 500000000), 50)
+# Criação das variáveis que serão usadas nas coleçõe - serão gerados números aleatórios
+ra_aluno = random.sample(range(100000000, 500000000), 60)
 ra_professor = random.sample(range(500000001, 999999999), 20)
 lista_materias = [num for num in random.sample(range(100000, 999999), 60)]
 
+
+# Arrumando a formatação dos RAs de aluno e professor
 ra_aluno_formatado = []
 ra_professor_formatado = []
-
 for i in ra_aluno:
-    ra_aluno_formatado.append(f"{str(i)[:2]}.{str(i)[:3]}.{str(i)[:3]}-{str(i)[:1]}")
-
+    ra_aluno_formatado.append(f"{str(i)[:2]}.{str(i)[2:5]}.{str(i)[5:8]}-{str(i)[8]}")
 for i in ra_professor:
-    ra_professor_formatado.append(f"{str(i)[:2]}.{str(i)[:3]}.{str(i)[:3]}-{str(i)[:1]}")
+    ra_professor_formatado.append(f"{str(i)[:2]}.{str(i)[2:5]}.{str(i)[5:8]}-{str(i)[8]}")
 
-
-# valores chaves de variaveis para quando for criar valores ficticios
+# Valores chaves de variáveis para quando for criar valores ficticios
 primary_keys = {
     "nome_departamento" : ["Matemática", "Física", "Ciência da Computação", "Engenharia Elétrica", "Engenharia Mecânica"],
     "id_curso" : ['MA', 'FI', 'CC', 'EE', 'EM'],
+    "nome_materia": ["Calculo 1", "Calculo 2", "Calculo 3", "Calculo 4", "Probabilidade e Estatística", "Desenvolvimento de Projetos", "Introdução a Computação"]
 }
 semestre = ["Primeiro","Segundo","Terceiro","Quarto","Quinto","Sexto","Setimo","oitavo"]
 
 
+# Cria um dicionario de ids de materias, onde cada id vai referenciar uma materia - assim podemos ter varios alunos fazendo aquela mesma materia (com mesmo id, logo mesma sala de aula)
+materias_ids = {}
+for i in lista_materias:
+    materias_ids[i] = primary_keys['nome_materia'][random.randint(0,4)]
+    
 
+# Criação da Coleção Matéria
 materias = []
 for i in range(len(lista_materias)):
+    chave = random.choice(list(materias_ids.keys())) # Pega uma chave aleatoria
     materia = {
-        "ID_Materia" : lista_materias[random.randint(0, (len(lista_materias)-1))],
-        "Nome_Materia" : fake.materias_random(),
+        "ID_Materia" : chave,
+        "Nome_Materia" : materias_ids[chave],
         "Prova" : fake.pybool() 
     }
     materias.append(materia)
 collection_materia.insert_many(materias)
 
+
+# Criação da Coleção Estudante
 students = []
-for i in range(len(ra_aluno)):
+for i, ra in enumerate(ra_aluno_formatado):
+    chave = random.choice(list(materias_ids.keys())) # Pega uma chave aleatoria
     student = {
-        "ID_Aluno" : ra_aluno_formatado[i],
-        "Nome_Aluno" : fake.first_name(), #nome atribuido aleatoriamente pela biblioteca faker
+        "ID_Aluno" : ra,
+        "Nome_Aluno" : fake.first_name(), # Nome atribuido aleatoriamente pela biblioteca faker
         "Idade_Aluno" : random.randint(18,65),
         "ID_Curso" : primary_keys["id_curso"][random.randint(0, 4)],
         "ID_TCC" : (i+1),
@@ -105,75 +118,48 @@ for i in range(len(ra_aluno)):
             "Nota" : round(random.uniform(0.0,10.0),2),
             "Semestre" : random.choice(semestre),
             "Ano" : 2020,
-            "ID_Materia" : lista_materias[random.randint(0, (len(lista_materias)-1))]
+            "ID_Materia" : chave,
         }
     }
     students.append(student)
 collection_student.insert_many(students)
 
 
-# Realiza o lookup entre estudantes e matérias
+# Agregação entre a Coleção Estudante e a Coleção Matéria a partir do ID_Materia ser igual
 resultados = collection_student.aggregate([
     {
         "$lookup": {
-            "from": "Materia",  # Nome da coleção de matérias
-            "localField": "Historico_Escolar.ID_Materia",  # Campo da coleção de estudantes
-            "foreignField": "ID_Materia",  # Campo da coleção de matérias
-            "as": "materia_info"  # Nome do campo onde a informação da matéria será armazenada
+            "from": "Materia",  # Nome da coleção que vai agregar
+            "localField": "Historico_Escolar.ID_Materia",  # Campo da outra coleção
+            "foreignField": "ID_Materia",  # Campo da coleção que vou agregar
+            "as": "materia_info"  # É onde vai armazenar todas essas informações
         }
     },
     {
-        "$unwind": "$materia_info"  # Corrigido o nome para "materia_info"
+        "$unwind": "$materia_info"  # Muda o nome - serve para poder chamar qualquer variável da Coleção Matéria
+    },
+    {
+        "$sample": { "size": 1 } # pega apenas um resultado (não aleatório, sempre o primeiro da lista)
+    },
+    {
+        "$project": { # Adiciona em resultados apenas as variáveis que eu quiser
+            "Nome_Aluno": 1,
+            "ID_Curso": 1,
+            "materia_info.Nome_Materia": 1,
+            "Historico_Escolar.Semestre": 1,
+            "Historico_Escolar.Ano": 1,
+            "Historico_Escolar.Nota": 1,
+            "_id": 0
+        }
     }
+    
 ])
 
-#precisa conferir
-a=0
-b=0
 
-
-for i, resultado in enumerate(resultados):
-    print(f'{i}- {resultado}\n')
-
-ids_repetidos = []
-lista_resultado = []
-for resultado in resultados:
-    a+=1
-    #print(f'{i+1}- {resultado}\n')
-    if resultado['ID_Aluno'] not in ids_repetidos:
-        ids_repetidos.append(resultado['ID_Aluno'])
-        lista_resultado.append(resultado)
-
-for i, resultado in enumerate(lista_resultado):
-    #print(f'{i}- {resultado}\n')
-    b+=1
-    pass
-
-print(a)
-print(b)
-#aaaaaaaaaaaaaaaaaaaaaaa
-
-
-#{'_id': ObjectId('671009ddd2200dae3b2991cf'), 'ID_Aluno': '19.190.190-1', 'Nome_Aluno': 'Kyle', 'Idade_Aluno': 50, 'ID_Curso': 'EE', 'ID_TCC': 49, 'Historico_Escolar': {'ID_Historico_Escolar': 1, 'Nota': 4.13, 'Semestre': 'oitavo', 'Ano': 2020, 'ID_Materia': '745234'}, 'materia_info': {'_id': ObjectId('671009ddd2200dae3b29916b'), 'ID_Materia': '745234', 'Nome_Materia': 'Introdução a Computação', 'Prova': False}}
-#{'_id': ObjectId('671009ddd2200dae3b2991cf'), 'ID_Aluno': '19.190.190-1', 'Nome_Aluno': 'Kyle', 'Idade_Aluno': 50, 'ID_Curso': 'EE', 'ID_TCC': 49, 'Historico_Escolar': {'ID_Historico_Escolar': 1, 'Nota': 4.13, 'Semestre': 'oitavo', 'Ano': 2020, 'ID_Materia': '745234'}, 'materia_info': {'_id': ObjectId('671009ddd2200dae3b299175'), 'ID_Materia': '745234', 'Nome_Materia': 'Calculo 1', 'Prova': False}}
-
-
-
-
-
-# Exibir os resultados
-#print(resultados)
-#resultados_lista = list(resultados)
-#print(resultados_lista)
-# if resultados:
-#     print("\nResultados da agregação:")
-#     for resultado in db["materia_info"]:
-#         print(resultado)
-# else:
-#     print("Nenhum resultado encontrado na agregação.")
-
+# Criando a Coleção Professor
 teachers = []
 for i in range(len(ra_professor)):
+    chave = random.choice(list(materias_ids.keys())) # Pega uma chave aleatoria
     teacher = {
         "ID_Professor" : ra_professor_formatado[i],
         "Nome_Professor" : fake.first_name(),
@@ -183,52 +169,40 @@ for i in range(len(ra_professor)):
             "Semestre" : random.choice(semestre),
             "Ano" : 2020,
             "Quantidade_Aulas" : random.randint(1, 100),
-            "ID_Materia" : lista_materias[random.randint(0, (len(lista_materias)-1))] 
+            "ID_Materia" : chave
         }
     }
     teachers.append(teacher)
 collection_teacher.insert_many(teachers)
 
-# for i in collection_student.find():
-#     print(i)
-
-#querie para retornar a nota de cada aluno
-
-#{} -> busque todas as collections sem filtro
-#nome_aluno = collection_student.find({}, {"Nome_Aluno": 1, "_id": 0, "Idade_Aluno" : 1, "Historico_Escolar.Nota" : 1})
-
-#nota_especifica = collection_student.find({"Historico_Escolar.Nota": {"$lt": 2} }, {"Nome_Aluno": 1, "_id": 0, "Historico_Escolar.Nota" : 1})
-
-#for i in nota_especifica:
-   #print("nota especifica: ", i)
-
-#resultado = collection_test.find_one({"nome" : document["nome"]})
-
-# if resultado:
-#     print('O documento ja exite', document)
-
-# else:
-#     collection_test.insert_one(document)
-#     print("Inserção realizada com sucesso")
 
 #QUERIES
 # 1- histórico escolar de qualquer aluno, retornando o código e nome da disciplina, semestre e ano que a disciplina foi cursada e nota final
-#hist_esc = lista_resultado.find_one({}, {"ID_Materia":1, "Nome_Materia":1, "Historico_Escolar.Semestre":1, "Historico_Escolar.Ano":1, "Historico_Escolar.Nota":1})
-#print(hist_esc)
+print("----- QUERY 1 -----")
+resultados_dif = [] # pega apenas os que nao forem repetidos (remove quando object_id é a unica coisa diferente)
+nome_dif = [] # colocar todos os nomes que nao forem iguais
+for resultado in resultados:
+    if resultado['Nome_Aluno'] not in nome_dif:
+        nome_dif.append(resultado['Nome_Aluno'])
+        resultados_dif.append(resultado)
+        
+for resultado in resultados_dif:
+    print(resultado)
 
 # 2- histórico de disciplinas ministradas por qualquer professor, com semestre e ano
+print("\n----- QUERY 2 -----")
 hist_prof = collection_teacher.find_one({}, {"Nome_Professor":1, "Historico_Professor.ID_Materia":1, "Historico_Professor.Semestre":1, "Historico_Professor.Ano":1})
 print(hist_prof)
 
 
 # 3- listar alunos que já se formaram (foram aprovados em todos os cursos de uma matriz curricular) em um determinado semestre de um ano
-
+#print("\n----- QUERY 3 -----")
 
 
 # 4- listar todos os professores que são chefes de departamento, junto com o nome do departamento
-
+#print("\n----- QUERY 4 -----")
 
 
 # 5- saber quais alunos formaram um grupo de TCC e qual professor foi o orientador
-
+#print("\n----- QUERY 5 -----")
 

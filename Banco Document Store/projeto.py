@@ -120,7 +120,7 @@ collection_materia.insert_many(materias)
 # Criação da Coleção Estudante 
 students = []
 for i, ra in enumerate(ra_aluno_formatado):
-    chave = random.choice(list(materias_ids.keys())) # Pega uma chave aleatoria
+    chave = random.choice(list(materias_ids.keys())) # Pega uma chave aleatoria, mas pode repetir
     student = {
         "ID_Aluno" : ra,
         "Nome_Aluno" : fake.first_name(), # Nome atribuido aleatoriamente pela biblioteca faker

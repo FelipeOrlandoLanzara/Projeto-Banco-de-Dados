@@ -160,7 +160,7 @@ def relacoesQuery1():
         for ra, id_he, id_ma in zip(ra_aluno_formatado, lista_hist_escolar, lista_materias):
             session.run(
                 "MATCH (a:Aluno {ID_Aluno: $ID_Aluno}), (he:HistóricoEscolar {ID_HistoricoEscolar: $ID_HistoricoEscolar})"
-                "CREATE (a)-[:CURSOU]->(he)",
+                "CREATE (a)-[:TEM]->(he)",
                 ID_Aluno = ra, ID_HistoricoEscolar = id_he
             )
             session.run(
@@ -173,7 +173,7 @@ relacoesQuery1()
 with driver.session() as session:
     query1 = session.run(
         """
-        MATCH (a:Aluno)-[:CURSOU]->(he:HistóricoEscolar)-[:REFERENTE]->(m:Matéria)
+        MATCH (a:Aluno)-[:TEM]->(he:HistóricoEscolar)-[:REFERENTE]->(m:Matéria)
         RETURN a.Nome_Aluno AS Nome_Aluno, 
                m.ID_Materia AS ID_Materia, 
                m.Nome_Materia AS Nome_Materia, 
@@ -222,7 +222,34 @@ with driver.session() as session:
 
 # 3- Listar alunos que já se formaram (foram aprovados em todos os cursos de uma matriz curricular) em um determinado semestre de um ano
 print("\n----- QUERY 3 -----")
+def relacoesQuery3():
+    with driver.session() as session:
+        for ra in ra_aluno_formatado:
+            # Escolhe um curso aleatório para cada aluno
+            id_curso = random.choice(primary_keys["id_curso"])
+            
+            # Cria o relacionamento "CURSOU" entre o aluno e o curso escolhido
+            session.run(
+                """
+                MATCH (a:Aluno {ID_Aluno: $ID_Aluno}), (c:Curso {ID_Curso: $ID_Curso})
+                CREATE (a)-[:CURSOU]->(c)
+                """,
+                ID_Aluno=ra, ID_Curso=id_curso
+            )
+relacoesQuery3()
 
+with driver.session() as session:
+    query3 = session.run(
+    """
+    MATCH (a:Aluno)-[:TEM]->(he:HistóricoEscolar), (a:Aluno)-[:CURSOU]->(c:Curso)
+    RETURN a.Nome_Aluno AS Nome_Aluno,
+           c.Nome_Curso AS Nome_Curso,
+           c.ID_Curso AS ID_Curso,
+           he.Semestre AS Semestre,
+           he.Ano AS Ano,
+           he.Nota AS Nota
+    """
+    )
 
 
 # 4- Listar todos os professores que são chefes de departamento, junto com o nome do departamento

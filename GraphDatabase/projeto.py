@@ -225,45 +225,36 @@ print("\n----- QUERY 3 -----")
 def relacoesQuery3():
     with driver.session() as session:
         for ra in ra_aluno_formatado:
-            # Escolhe um curso aleatório para cada aluno
-            id_curso = random.choice(primary_keys["id_curso"])
-            
-            # Cria o relacionamento "CURSOU" entre o aluno e o curso escolhido
+            id = random.choice(primary_keys["id_curso"]) # Vai pegar um aleatório, o que permite com que alunos cursem o mesmo curso
             session.run(
                 """
                 MATCH (a:Aluno {ID_Aluno: $ID_Aluno}), (c:Curso {ID_Curso: $ID_Curso})
                 CREATE (a)-[:CURSOU]->(c)
                 """,
-                ID_Aluno=ra, ID_Curso=id_curso
+                ID_Aluno = ra, ID_Curso = id
             )
 relacoesQuery3()
 
 with driver.session() as session:
+    numero_aleatorio = random.randint(0, 7) # Pega um número aleatório para buscar na lista Semestre
+    semestre_aleatorio = semestre[numero_aleatorio] # Para pegar essa variável dentro da Query é preciso colocar o '$' antes
     query3 = session.run(
     """
     MATCH (a:Aluno)-[:TEM]->(he:HistóricoEscolar), (a:Aluno)-[:CURSOU]->(c:Curso)
+    WHERE he.Nota > 5 AND he.Semestre = $semestre_aleatorio AND he.Ano = 2020
     RETURN a.Nome_Aluno AS Nome_Aluno,
            c.Nome_Curso AS Nome_Curso,
            c.ID_Curso AS ID_Curso,
            he.Semestre AS Semestre,
            he.Ano AS Ano,
            he.Nota AS Nota
-    """
+    """, 
+    semestre_aleatorio = semestre_aleatorio # E agora eu digo para a Query qual o parâmetro que eu dei
     )
-
+    for resultado in query3:
+        print(f'Nome do Aluno: {resultado["Nome_Aluno"]}, Nome do Curso: {resultado["Nome_Curso"]}, ID do Curso: {resultado["ID_Curso"]}, Semestre: {resultado["Semestre"]}, Ano: {resultado["Ano"]}, Nota: {resultado["Nota"]}')
 
 # 4- Listar todos os professores que são chefes de departamento, junto com o nome do departamento
 
 
 # 5- Saber quais alunos formaram um grupo de TCC e qual professor foi o orientador
-
-# with driver.session() as session:
-#     result = session.run(
-#         """
-#         MATCH (a:Aluno)
-#         RETURN a.ID_Aluno AS ID_Aluno, a.Nome_Aluno AS Nome_Aluno, a.Idade_Aluno AS Idade_Aluno
-#         """
-#     )
-    
-#     for record in result:
-#         print(record["Nome_Aluno"], record["ID_Aluno"], record["Idade_Aluno"])

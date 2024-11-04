@@ -146,10 +146,7 @@ try:
 finally:
     driver.close()
     
-
-
-    
-    
+ 
 # QUERIES
 print('----- RESOLUÇÃO DAS QUERIES -----\n')
 
@@ -255,6 +252,18 @@ with driver.session() as session:
         print(f'Nome do Aluno: {resultado["Nome_Aluno"]}, Nome do Curso: {resultado["Nome_Curso"]}, ID do Curso: {resultado["ID_Curso"]}, Semestre: {resultado["Semestre"]}, Ano: {resultado["Ano"]}, Nota: {resultado["Nota"]}')
 
 # 4- Listar todos os professores que são chefes de departamento, junto com o nome do departamento
-
+print("\n----- QUERY 4 -----")
+def relacoesQuery4():
+    with driver.session() as session:
+        for ra in ra_professor_formatado:
+            name = random.choice(primary_keys["nome_departamento"])
+            session.run(
+                """
+                MATCH (d:Departamento {Nome_Departamento: $Nome_Departamento}), (p:Professor {ID_Professor: $ID_Professor})
+                CREATE (d)-[:ORGANIZA]->(p)
+                """,
+                Nome_Departamento = name, ID_Professor = ra
+            )
+relacoesQuery4()
 
 # 5- Saber quais alunos formaram um grupo de TCC e qual professor foi o orientador

@@ -102,6 +102,14 @@ def criaProfessor():
                         Nome_Professor = fake.first_name(),
                         Salario = random.randint(2000, 20000)
                         )
+# Adiciona uma nova Professora Julia
+def adicionaProfessor():
+    with driver.session() as session:
+        session.run("CREATE (p:Professor {ID_Professor: $ID_Professor, Nome_Professor: $Nome_Professor, Salario: $Salario})",
+                    ID_Professor = "24.122.055-7",
+                    Nome_Professor = "Julia",
+                    Salario = 20000
+                    )
 
 # Criação da Tabela Histórico Professor
 def criaHistoricoProfessor():
@@ -132,6 +140,14 @@ def criaDepartamento():
                         Nome_Departamento = name,
                         Chefe_Departamento = fake.first_name()
                         )
+# Adiciona uma Chefe de Departamento Julia em um novo Departamento Engenharia de Produção
+def adicionaDepartamento():
+    with driver.session() as session:
+        session.run("CREATE (d:Departamento {Nome_Departamento: $Nome_Departamento, Chefe_Departamento: $Chefe_Departamento})",
+                    Nome_Departamento = "Engenharia de Produção",
+                    Chefe_Departamento = "Julia"
+                    )
+
 
 # Chama as funções 
 try:
@@ -140,9 +156,11 @@ try:
     criaHistoricoEscolar()
     criaMateria()
     criaProfessor()
+    adicionaProfessor()
     criaHistoricoProfessor()
     criaCurso()
     criaDepartamento()
+    adicionaDepartamento()
 finally:
     driver.close()
     
@@ -264,6 +282,25 @@ def relacoesQuery4():
                 """,
                 Nome_Departamento = name, ID_Professor = ra
             )
+        session.run(
+            """
+            MATCH (d:Departamento {Nome_Departamento: $Nome_Departamento}), (p:Professor {ID_Professor: $ID_Professor})
+            CREATE (d)-[:ORGANIZA]->(p)
+            """,
+            Nome_Departamento = "Engenharia de Produção", ID_Professor = "24.122.055-7"
+        )
 relacoesQuery4()
+
+with driver.session() as session:
+    query4 = session.run(
+    """
+    MATCH (d:Departamento)-[:ORGANIZA]->(p:Professor)
+    WHERE d.Chefe_Departamento = p.Nome_Professor
+    RETURN d.Nome_Departamento AS Nome_Departamento,
+           p.Nome_Professor AS Nome_Professor
+    """
+    )
+    for resultado in query4:
+        print(f'Nome do Departamento: {resultado["Nome_Departamento"]}, Nome do Professor: {resultado["Nome_Professor"]}')
 
 # 5- Saber quais alunos formaram um grupo de TCC e qual professor foi o orientador

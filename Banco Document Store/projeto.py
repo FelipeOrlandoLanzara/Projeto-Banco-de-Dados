@@ -128,7 +128,7 @@ for i, ra in enumerate(ra_aluno_formatado):
         "ID_Curso" : primary_keys["id_curso"][random.randint(0, 4)],
         "ID_TCC" : (i+1),
         "Historico_Escolar": { # Criação do Histórico Escolar junto a Coleção de Estudante
-            "ID_Historico_Escolar" : 1,
+            "ID_Historico_Escolar" : (i+1000),
             "Nota" : round(random.uniform(0.0,10.0),2),
             "Semestre" : random.choice(semestre),
             "Ano" : 2020,
@@ -153,6 +153,7 @@ for i in range(len(ra_professor)):
         "Salario" : random.randint(2000, 20000),
         "Nome_Departamento" : random.choice(primary_keys["nome_departamento"]),
         "Historico_Professor" : {
+            "ID_Historico_Professor" : (2001+i),
             "Semestre" : random.choice(semestre),
             "Ano" : 2020,
             "Quantidade_Aulas" : random.randint(1, 100),
@@ -168,6 +169,7 @@ teacher_solo = {
     "Salario" : random.randint(2000, 20000),
     "Nome_Departamento" : "Engenharia de Produção",
     "Historico_Professor" : {
+        "ID_Historico_Professor" : 2000,
         "Semestre" : random.choice(semestre),
         "Ano" : 2020,
         "Quantidade_Aulas" : random.randint(1, 100),

@@ -2,7 +2,7 @@
  Projetar uma faculdade utilizando banco de dados para salvar os dados.
 
 # Integrantes
-Enzo Pacheco Porfirio
+Enzo Pacheco Porfirio R.A.: 24.122.003-7
 
 Felipe Orlando Lanzara R.A.: 24.122.055-7
 
@@ -53,6 +53,6 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 ## Passos para executar o programa
 - Antes de fazer o download do arquivo zip do projeto, deve-se primeiro, fazer a instalação das bibliotecas ```neo4j``` e ```Faker``` através do comando ```pip install```.
 - Criar um ```acessNeo4j``` na pasta ```GraphDatabase``` com as seguintes instruções: ```uri```, ```user``` e ```password```do seu servidor:
-
+- Conexão via ```neo4j+```
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Neo4j.png)

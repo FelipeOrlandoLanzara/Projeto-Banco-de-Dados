@@ -71,6 +71,73 @@ for i in lista_materias:
     materias_ids[i] = primary_keys['nome_materia'][random.randint(0,4)]
 
 
+# ----- DROP DAS TABELAS -----
+
+# Drop da Tabela Aluno
+def deletaAluno(session):
+    session.execute(
+        """
+        DROP TABLE Aluno;
+        """
+    )
+
+# Drop da Tabela Historico Escolar
+def deletaHistoricoEscolar(session):
+    session.execute(
+        """
+        DROP TABLE HistoricoEscolar;
+        """
+    )
+
+# Drop da Tabela Materia
+def deletaMateria(session):
+    session.execute(
+        """
+        DROP TABLE Materia;
+        """
+    )
+
+# Drop da Tabela Professor
+def deletaProfessor(session):
+    session.execute(
+        """
+        DROP TABLE Professor;
+        """
+    )
+
+# Drop da Tabela Historico Professor
+def deletaHistoricoProfessor(session):
+    session.execute(
+        """
+        DROP TABLE HistoricoProfessor;
+        """
+    )
+
+# Drop da Tabela Curso
+def deletaCurso(session):
+    session.execute(
+        """
+        DROP TABLE Curso;
+        """
+    )
+
+# Drop da Tabela Departamento
+def deletaDepartamento(session):
+    session.execute(
+        """
+        DROP TABLE Departamento;
+        """
+    )
+
+# Drop da Tabela TCC
+def deletaTCC(session):
+    session.execute(
+        """
+        DROP TABLE TCC;
+        """
+    )
+
+
 # ----- CRIANDO AS TABELAS -----
 
 # Criação da Tabela Alunos
@@ -102,15 +169,15 @@ def criaAluno(session):
             'Ano': 2020,
             'Nota': round(random.uniform(0.0,10.0),2)
         }
-    session.execute(
-        """
-        INSERT INTO Aluno (ID_Aluno, Nome_Aluno, Idade_Aluno, Nome_Curso, ID_Curso, Semestre, Ano, Nota) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """,
-        tuple(dados_aluno.values())
-    )
+        session.execute(
+            """
+            INSERT INTO Aluno (ID_Aluno, Nome_Aluno, Idade_Aluno, Nome_Curso, ID_Curso, Semestre, Ano, Nota) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """,
+            tuple(dados_aluno.values())
+        )
 
-def consultar_usuarios(session):
+def consultar_aluno(session):
     rows = session.execute("SELECT ID_Aluno, Nome_Aluno, Idade_Aluno, Nome_Curso, ID_Curso, Semestre, Ano, Nota FROM Aluno")
     for row in rows:
         #print(f"ID_Aluno: {row.id_aluno}, Nome_Aluno: {row.nome_aluno}, Idade_Aluno: {row.idade_aluno}")
@@ -123,18 +190,44 @@ def consultar_usuarios(session):
 def criaHistoricoEscolar(session):
     session.execute(
         """
-        CREATE TABLE IF NOT EXISTS HistóricoEscolar (
-            ID_HistoricoEscolar text,
+        CREATE TABLE IF NOT EXISTS HistoricoEscolar (
+            ID_HistoricoEscolar int,
             Semestre text,
             Ano int,
             Nota float,
             Nome_Aluno text,
-            ID_Materia text,
+            ID_Materia int,
             Nome_Materia text,
+            PRIMARY KEY (ID_HistoricoEscolar)
         )
         """
     )
+    # for id_he in lista_hist_escolar:
+    #     chave = random.choice(list(materias_ids.keys())) # Pega uma chave aleatoria
+    #     dados_historico_escolar = {
+    #         'ID_HistoricoEscolar': id_he,
+    #         'Semestre': random.choice(semestre),
+    #         'Ano': 2020,
+    #         'Nota': round(random.uniform(0.0,10.0),2),
+    #         'Nome_Aluno': fake.first_name(),
+    #         'ID_Materia': chave,
+    #         'Nome_Materia' : materias_ids[chave]
+    #     }
+    #     session.execute(
+    #         """
+    #         INSERT INTO HistoricoEscolar (ID_HistoricoEscolar, Semestre, Ano, Nota, Nome_Aluno, ID_Materia, Nome_Materia)
+    #         VALUES (%s, %s, %s, %s, %s, %s, %s)
+    #         """,
+    #         tuple(dados_historico_escolar.values())
+    #     )
 
+# def consultar_historico_escolar(session):
+#     rows = session.execute("SELECT ID_HistoricoEscolar, Semestre, Ano, Nota, Nome_Aluno, ID_Materia, Nome_Materia FROM HistoricoEscolar")
+#     for row in rows:
+#         #print(f"ID_Aluno: {row.id_aluno}, Nome_Aluno: {row.nome_aluno}, Idade_Aluno: {row.idade_aluno}")
+#         print(row)
+
+    
 # Criação da Tabela Matéria
 def criaMateria(session):
     session.execute(
@@ -143,6 +236,7 @@ def criaMateria(session):
             ID_Materia text,
             Nome_Materia text,
             Prova boolean,
+            PRIMARY KEY (ID_MATERIA)
         )
         """
     )
@@ -154,7 +248,8 @@ def criaProfessor(session):
         CREATE TABLE IF NOT EXISTS Professor (
             ID_Professor text,
             Nome_Professor text,
-            Salario int
+            Salario int,
+            PRIMARY KEY (ID_Professor)
         )
         """
     )
@@ -163,14 +258,15 @@ def criaProfessor(session):
 def criaHistoricoProfessor(session):
     session.execute(
         """
-        CREATE TABLE IF NOT EXISTS HistóricoProfessor (
+        CREATE TABLE IF NOT EXISTS HistoricoProfessor (
             ID_HistoricoProfessor text,
             Semestre text,
             Ano text,
             Quantidade_Aulas int,
             Nome_Professor text,
             ID_Materia text,
-            Nome_Materia text
+            Nome_Materia text,
+            PRIMARY KEY (ID_HistoricoProfessor)
         )
         """
     )
@@ -182,7 +278,8 @@ def criaCurso(session):
         CREATE TABLE IF NOT EXISTS Curso (
             ID_Curso text,
             Nome_Curso text,
-            Horas_Extras int
+            Horas_Extras int,
+            PRIMARY KEY (ID_Curso)
         )
         """
     )
@@ -191,9 +288,10 @@ def criaCurso(session):
 def criaDepartamento(session):
     session.execute(
         """
-        CREATE IF TABLE NOT EXISTS Departamento (
+        CREATE TABLE IF NOT EXISTS Departamento (
             Nome_Departamento text,
-            Chefe_Departamento text
+            Chefe_Departamento text,
+            PRIMARY KEY (Nome_Departamento)
         )
         """
     )
@@ -202,11 +300,12 @@ def criaDepartamento(session):
 def criaTCC(session):
     session.execute(
         """
-        CREATE IF TABLE NOT EXISTS TCC (
+        CREATE TABLE IF NOT EXISTS TCC (
             ID_TCC int,
             Titulo text,
             Nome_Aluno text,
-            Nome_Professor text
+            Nome_Professor text,
+            PRIMARY KEY (ID_TCC)
         )
         """
     )
@@ -218,7 +317,14 @@ def criaTCC(session):
 # Fechando a conexão
         
 # ----- CHAMANDO AS FUNÇÕES -----
-        
+deletaAluno(session)
+deletaHistoricoEscolar(session)
+deletaMateria(session)
+deletaProfessor(session)
+deletaHistoricoProfessor(session)
+deletaCurso(session)
+deletaDepartamento(session)
+deletaTCC(session)
 # Funções para a criação da Tabelas
 criaAluno(session)
 criaHistoricoEscolar(session)
@@ -226,7 +332,9 @@ criaMateria(session)
 criaProfessor(session)
 criaHistoricoProfessor(session)
 criaCurso(session)
-criaDepartamento()
-criaTCC()
-consultar_usuarios(session)
+criaDepartamento(session)
+criaTCC(session)
+#Funções para consultar tabelas
+consultar_aluno(session)
+consultar_historico_escolar(session)
 session.shutdown()

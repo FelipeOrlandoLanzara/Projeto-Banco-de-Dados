@@ -35,3 +35,12 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 - Criar um ```acessMongo.json``` na pasta ```Banco Document Store``` com as seguintes instruções: ```connect``` e o ```database``` do seu servidor:
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20MongoDB.png)
+
+# Banco Wide-column Store (Cassandra)
+
+# Passos para executar o programa
+- Antes de fazer o download do arquivo zip do projeto, deve-se primeiro, fazer a instalação das bibliotecas ```cassandra-driver``` e ```Faker``` através do comando ```pip install```
+- Criar um ```acessCassandra.json``` na pasta ```Wide-ColumnStore``` com as seguintes instruções: ```clientId```, ```secret``` e o ```token``` do seu servidor:
+- Fazer o Dowload do arquivo zip de conexão do servidor, Ex.: secure-connect-faculdade.zip
+
+  

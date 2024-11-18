@@ -53,4 +53,4 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 - Criar um ```acessNeo4j``` na pasta ```GraphDatabase``` com as seguintes instruções: ```uri```, ```user``` e ```password```do seu servidor:
 
 
-
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Neo4j.png)

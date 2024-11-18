@@ -29,3 +29,7 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 - Query 5: Todos os alunos terão um id de TCC já definido junto a um professor que será o orientador.
 
 # Banco Document Store (MongoDB)
+
+# Passos para executar o programa
+- Antes de fazer o download do arquivo zip do projeto, deve-se primeiro, fazer a instalação das bibliotecas ```pymongo``` e ```Faker``` através do comando ```pip install```
+- Criar um ```acessMongo.json``` na pasta ```Banco Document Store``` com as seguintes instruções: ```connect``` e o ```database``` do seu servidor:

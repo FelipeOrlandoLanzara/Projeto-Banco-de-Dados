@@ -48,6 +48,7 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 
 - No ```secure_connect_bundle```, acrescentar o nome de arquivo zip de conexão do servidor
 
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Nome%20Arquivo%20ZIP%20conexao%20Cassandra.png)
 
 
 # Banco GraphDatabase (Neo4j)

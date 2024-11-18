@@ -40,7 +40,7 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 
 ## Passos para executar o programa
 - Antes de fazer o download do arquivo zip do projeto, deve-se primeiro, fazer a instalação das bibliotecas ```cassandra-driver``` e ```Faker``` através do comando ```pip install```.
-- Criar um ```acessCassandra.json``` na pasta ```Wide-ColumnStore``` com as seguintes instruções: ```clientId```, ```secret``` e o ```token``` do seu servidor:
+- Criar um ```acessCassandra.json``` na pasta ```Wide-ColumnStore``` com as seguintes instruções: ```clientId```, ```secret``` e o ```token``` do seu servidor.
 - Fazer o Dowload do arquivo zip de conexão do servidor (DataStax), Ex.: secure-connect-faculdade.zip
 - Nome do keyspace do servidor: ```faculdade``` o servidor deverá ser criado do tipo ```Serverless (Non-Vector)```.
 
@@ -52,7 +52,7 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 
 ## Passos para executar o programa
 - Antes de fazer o download do arquivo zip do projeto, deve-se primeiro, fazer a instalação das bibliotecas ```neo4j``` e ```Faker``` através do comando ```pip install```.
-- Criar um ```acessNeo4j``` na pasta ```GraphDatabase``` com as seguintes instruções: ```uri```, ```user``` e ```password```do seu servidor:
-- Conexão via ```neo4j+```
+- Criar um ```acessNeo4j``` na pasta ```GraphDatabase``` com as seguintes instruções: ```uri```, ```user``` e ```password```do seu servidor.
+- Protocolo de Conexão: ```neo4j+```.
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Neo4j.png)

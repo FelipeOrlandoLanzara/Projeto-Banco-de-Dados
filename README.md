@@ -47,3 +47,10 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Cassandra.png)
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Nome%20do%20arquivo%20ZIP%20de%20conexao%20do%20banco.png)
+
+# Banco GraphDatabase (Neo4j)
+- Antes de fazer o download do arquivo zip do projeto, deve-se primeiro, fazer a instalação das bibliotecas ```neo4j``` e ```Faker``` através do comando ```pip install```.
+- Criar um ```acessNeo4j``` na pasta ```GraphDatabase``` com as seguintes instruções: ```uri```, ```user``` e ```password```do seu servidor:
+
+
+

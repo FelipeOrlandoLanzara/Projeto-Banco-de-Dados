@@ -33,3 +33,5 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 # Passos para executar o programa
 - Antes de fazer o download do arquivo zip do projeto, deve-se primeiro, fazer a instalação das bibliotecas ```pymongo``` e ```Faker``` através do comando ```pip install```
 - Criar um ```acessMongo.json``` na pasta ```Banco Document Store``` com as seguintes instruções: ```connect``` e o ```database``` do seu servidor:
+
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20MongoDB.png)

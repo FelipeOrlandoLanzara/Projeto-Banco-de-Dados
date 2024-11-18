@@ -46,7 +46,9 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Cassandra.png)
 
-![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Nome%20do%20arquivo%20ZIP%20de%20conexao%20do%20banco.png)
+- No ```secure_connect_bundle```, acrescentar o nome de arquivo zip de conexão do servidor
+
+
 
 # Banco GraphDatabase (Neo4j)
 

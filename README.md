@@ -45,4 +45,5 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 - Nome do keyspace do servidor: ```faculdade``` o servidor deverá ser criado do tipo ```Serverless (Non-Vector)```.
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Cassandra.png)
+
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Nome%20do%20arquivo%20ZIP%20de%20conexao%20do%20banco.png)

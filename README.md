@@ -109,6 +109,94 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Nome%20Arquivo%20ZIP%20conexao%20Cassandra.png)
 
+## Descrição da Criação das Tabelas
+- Aluno:
+```python
+{
+  ID_Aluno: string
+  Nome_Aluno: string
+  Idade_Aluno: int
+  Nome_Curso: string
+  ID_Curso: string
+  Semestre: string
+  Ano: int
+  Nota: float
+  PRIMARY KEY (ID_Aluno, Nome_Aluno, Idade_Aluno)
+}
+```
+- HistoricoEscolar:
+```python
+{
+  ID_HistoricoEscolar: int
+  Semestre: string
+  Ano: int
+  Nota: float
+  Nome_Aluno: string
+  ID_Materia: int
+  Nome_Materia: string
+  PRIMARY KEY (ID_HistoricoEscolar, Semestre, Ano, Nota)
+}
+```
+- Materia:
+```python
+{
+  ID_Materia: int
+  Nome_Materia: string
+  Prova: boolean
+  PRIMARY KEY (ID_Materia, Nome_Materia, Prova)
+}
+```
+- Professor:
+```python
+{
+  ID_Professor: string
+  Nome_Professor: string
+  Salario: int
+  Nome_Departamento: string
+  Chefe_Departamento: string
+  PRIMARY KEY (ID_Professor, Nome_Professor, Salario)
+}
+```
+- HistoricoProfessor:
+```python
+{
+  ID_HistoricoProfessor: int
+  Semestre: string
+  Ano: int
+  Quantidade_Aulas: int
+  Nome_Professor: string
+  ID_Materia: int
+  Nome_Materia: string
+  PRIMARY KEY (ID_HistoricoProfessor, Semestre, Ano, Quantidade_Aulas)
+}
+```
+- Curso:
+```python
+{
+  ID_Curso: string
+  Nome_Curso: string
+  Horas_Extras: int
+  PRIMARY KEY (ID_Curso, Nome_Curso, Horas_Extras)
+}
+```
+- Departamento:
+```python
+{
+  Nome_Departamento: string
+  Chefe_Departamento: string
+  PRIMARY KEY (Nome_Departamento, Chefe_Departamento)
+}
+```
+- TCC:
+```python
+{
+  ID_TCC: int
+  Titulo: string
+  Nome_Aluno: string
+  Nome_Professor: string
+  PRIMARY KEY (ID_TCC, Titulo)
+}
+```
 
 # Banco GraphDatabase (Neo4j)
 

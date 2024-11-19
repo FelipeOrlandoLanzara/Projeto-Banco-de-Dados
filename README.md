@@ -53,13 +53,13 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
   Idade_Aluno: int
   ID_Curso: string
   ID_TCC: int
-  Historico_Escolar: {
+  Historico_Escolar: [{
                         ID_Historico_Escolar: int
                         Nota: float
                         Semestre: string
                         Ano: int
                         ID_Materia: int
-                     }
+                     }]
 }
 ```
 - Professor:
@@ -69,13 +69,13 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
   Nome_Professor: string
   Salario: int
   Nome_Departamento: string
-  Historico_Professor: {
+  Historico_Professor: [{
                           ID_Historico_Professor: int
                           Semestre: string
                           Ano: int
                           Quantidade_Aulas: int
                           ID_Materia: int
-                       }
+                       }]
 }
 ```
 - Curso:

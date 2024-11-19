@@ -278,34 +278,56 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 ```python
 (a)-[:TEM]->(he)
 ```
+
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/Aluno%20TEM%20HistoricoEscolar.png)
+
 - he:HistoricoEscolar -REFERENTE-> m:Materia
 ```python
 (he)-[:REFERENTE]->(m)
 ```
+
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/HistoricoEscolar%20REFERENTE%20Materia.png)
+
 - p:Professor -POSSUI-> hp:HistoricoProfessor
 ```python
 (p)-[:POSSUI]->(hp)
 ```
+
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/Professor%20POSSUI%20HistoricoProfessor.png)
+
 - hp:HistoricoProfessor -REFERENCIA-> m:Materia
 ```python
 (hp)-[:REFERENCIA]->(m)
 ```
+
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/HistoricoProfessor%20REFERENCIA%20Materia.png)
+
 - a:Aluno -CURSOU-> c:Curso
 ```python
 (a)-[:CURSOU]->(c)
 ```
+
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/AlunoCURSOU%20Curso.png)
+
 - d:Departamento -ORGANIZA-> p:Professor
 ```python
 (d)-[:ORGANIZA]->(p)
 ```
+
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/Departamento%20ORGANIZA%20Professor.png)
+
 - p:Professor -ORIENTADO-> t:TCC
 ```python
 (p)-[:ORIENTADO]->(t)
 ```
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/Professor%20ORIENTADO%20TCC.png)
+
 - a:Aluno -FAZ-> t:TCC
 ```python
 (a)-[:FAZ]->(t)
 ```
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/Aluno%20FAZ%20TCC.png)
+
 ## Descrição das Relações nas Queries
 - Query 1: a:Aluno -TEM-> he:HistoricoEscolar -REFERENTE-> m:Materia
 ```python

@@ -327,7 +327,7 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 ```python
 (a:Aluno)-[:FAZ]->(t:TCC)<-[:ORIENTADO]-(p:Professor)
 ```
-
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/queries%20nodes%20neo4j.png)
 
 
 

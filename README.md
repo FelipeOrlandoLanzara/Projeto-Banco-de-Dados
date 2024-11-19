@@ -59,3 +59,76 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 - Protocolo de Conexão: ```neo4j+```.
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Neo4j.png)
+
+## Descrição da Criação dos Nós
+- Aluno:
+```python
+{
+  ID_Aluno: string
+  Nome_Aluno: string
+  Idade_Aluno: int
+}
+```
+- HistoricoEscolar:
+```python
+{
+  ID_HistoricoEscolar: int
+  Nota: float
+  Semestre: string
+  Ano: int
+}
+```
+- Materia:
+```python
+{
+  ID_Materia: int
+  Nome_Materia: string
+  Prova: boolean
+}
+```
+- Professor:
+```python
+{
+  ID_Professor: string
+  Nome_Professor: string
+  Salario: int
+}
+```
+- HistoricoProfessor:
+```python
+{
+  ID_HistoricoProfessor: int
+  Semestre: string
+  Ano: int
+  Quantidade_Aulas: int
+}
+```
+- Curso:
+```python
+{
+  ID_Curso: string
+  Nome_Curso: string
+  Horas_Extras: int
+}
+```
+- Departamento:
+```python
+{
+  Nome_Departamento: string
+  Chefe_Departamento: string
+}
+```
+- TCC:
+```python
+{
+  ID_TCC: int
+  Titulo: string
+}
+```
+
+
+
+
+
+
+

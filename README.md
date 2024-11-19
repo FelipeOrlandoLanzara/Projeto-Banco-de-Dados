@@ -126,7 +126,60 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 }
 ```
 
-
+## Descrição das Relações entre os Nós
+- a:Aluno -TEM-> he:HistoricoEscolar
+```python
+(a)-[:TEM]->(he)
+```
+- he:HistoricoEscolar -REFERENTE-> m:Materia
+```python
+(he)-[:REFERENTE]->(m)
+```
+- p:Professor -POSSUI-> hp:HistoricoProfessor
+```python
+CREATE (p)-[:POSSUI]->(hp)
+```
+- hp:HistoricoProfessor -REFERENCIA-> m:Materia
+```python
+(hp)-[:REFERENCIA]->(m)
+```
+- a:Aluno -CURSOU-> c:Curso
+```python
+(a)-[:CURSOU]->(c)
+```
+- d:Departamento -ORGANIZA-> p:Professor
+```python
+(d)-[:ORGANIZA]->(p)
+```
+- p:Professor -ORIENTADO-> t:TCC
+```python
+(p)-[:ORIENTADO]->(t)
+```
+- a:Aluno -FAZ-> t:TCC
+```python
+(a)-[:FAZ]->(t)
+```
+## Descrição das Relações nas Queries
+- Query 1: a:Aluno -TEM-> he:HistoricoEscolar -REFERENTE-> m:Materia
+```python
+(a:Aluno)-[:TEM]->(he:HistóricoEscolar)-[:REFERENTE]->(m:Matéria)
+```
+- Query 2: p:Professor -POSSUI-> hp:HistoricoProfessor -REFERENCIA-> m:Materia
+```python
+(p:Professor)-[:POSSUI]->(hp:HistóricoProfessor)-[:REFERENCIA]->(m:Matéria)
+```
+- Query 3: a:Aluno -TEM-> he:HistoricoEscolar -CURSOU-> c:Curso
+```python
+(a:Aluno)-[:TEM]->(he:HistóricoEscolar), (a:Aluno)-[:CURSOU]->(c:Curso)
+```
+- Query 4: d:Departamento -ORGANIZA-> p:Professor
+```python
+(d:Departamento)-[:ORGANIZA]->(p:Professor)
+```
+- Query 5: a:Aluno -FAZ-> t:TCC <-ORIENTADO- p:Professor
+```python
+(a:Aluno)-[:FAZ]->(t:TCC)<-[:ORIENTADO]-(p:Professor)
+```
 
 
 

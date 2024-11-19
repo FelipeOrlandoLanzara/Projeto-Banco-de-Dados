@@ -208,6 +208,8 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20Neo4j.png)
 
 ## Descrição da Criação dos Nós
+![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/Rela%C3%A7%C3%B5es.png)
+
 - Aluno:
 ```python
 {
@@ -349,8 +351,3 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 ```python
 (a:Aluno)-[:FAZ]->(t:TCC)<-[:ORIENTADO]-(p:Professor)
 ```
-![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/relacoes/Rela%C3%A7%C3%B5es.png)
-
-
-
-

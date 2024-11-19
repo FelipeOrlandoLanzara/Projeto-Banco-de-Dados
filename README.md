@@ -36,6 +36,65 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 
 ![image](https://github.com/jvgoverna/Projeto-Banco-de-Dados/blob/main/Conexao%20MongoDB.png)
 
+## Descrição da Criação das Coleções
+- Materia:
+```python
+{
+  ID_Materia: int
+  Nome_Materia: string
+  Prova: boolean
+}
+```
+- Estudante:
+```python
+{
+  ID_Aluno: string
+  Nome_Aluno: string
+  Idade_Aluno: int
+  ID_Curso: string
+  ID_TCC: int
+  Historico_Escolar: {
+                        ID_Historico_Escolar: int
+                        Nota: float
+                        Semestre: string
+                        Ano: int
+                        ID_Materia: int
+                     }
+}
+```
+- Professor:
+```python
+{
+  ID_Professor: string
+  Nome_Professor: string
+  Salario: int
+  Nome_Departamento: string
+  Historico_Professor: {
+                          ID_Historico_Professor: int
+                          Semestre: string
+                          Ano: int
+                          Quantidade_Aulas: int
+                          ID_Materia: int
+                       }
+}
+```
+- Curso:
+```python
+{
+  ID_Curso: string
+  Nome_Curso: string
+  Horas_Extras: int
+  Nome_Departamento: string
+}
+```
+- Departamento:
+```python
+{
+  Nome_Departamento: string
+  Chefe_Departamento: string
+}
+```
+
 # Banco Wide-column Store (Cassandra)
 
 ## Passos para executar o programa
@@ -137,7 +196,7 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
 ```
 - p:Professor -POSSUI-> hp:HistoricoProfessor
 ```python
-CREATE (p)-[:POSSUI]->(hp)
+(p)-[:POSSUI]->(hp)
 ```
 - hp:HistoricoProfessor -REFERENCIA-> m:Materia
 ```python

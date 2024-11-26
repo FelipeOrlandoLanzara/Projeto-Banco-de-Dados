@@ -60,6 +60,10 @@ Pedro Henrique Lega Kramer Costa R.A.: 24.122.049-0
                         Ano: int
                         ID_Materia: int
                      }]
+  TCC:               [{
+                        Titulo: string
+                        ID_Professor: string
+                     }]
 }
 ```
 - Professor:
